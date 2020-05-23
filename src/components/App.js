@@ -6,8 +6,11 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+
 import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./layout/theme";
+
 import Login from "./Login";
 import Articles from "./Articles";
 import Header from "./layout/Header";
@@ -45,6 +48,7 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <div>
+          <CssBaseline />
           <Header currentUser={username} />
           <Switch>
             <Route path="/login">

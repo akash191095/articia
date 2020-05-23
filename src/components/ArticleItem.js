@@ -3,6 +3,15 @@ import { Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import styled from "styled-components";
 
+const Image = styled.div`
+  margin: 2em 0;
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 16em;
+  }
+`;
+
 const Article = styled.article`
   background-color: ${(props) => props.color};
   padding: 1em;
@@ -48,6 +57,14 @@ function ArticleItem({
       <Typography variant="caption" component="p">
         On: {date.toLocaleString()}
       </Typography>
+      {imageUrl && (
+        <Image>
+          <Typography variant="caption" component="p">
+            Image
+          </Typography>
+          <img src={imageUrl} alt="post" />
+        </Image>
+      )}
     </Article>
   );
 }

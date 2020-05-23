@@ -1,6 +1,15 @@
 import React, { useContext } from "react";
+import styled from "styled-components";
 import { store } from "../../contexts/store";
-import { Button } from "@material-ui/core";
+import { Button, AppBar, Toolbar, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
 
 function Header({ currentUser }) {
   const globalState = useContext(store);
@@ -14,13 +23,22 @@ function Header({ currentUser }) {
   }
 
   return (
-    <header>
-      {currentUser && (
-        <Button variant="contained" color="default" onClick={handleLogout}>
-          Logout
-        </Button>
-      )}
-    </header>
+    <AppBar position="static">
+      <Toolbar>
+        {currentUser && (
+          <Container>
+            <Link to="/">
+              <Typography variant="button" color="secondary">
+                Articia
+              </Typography>
+            </Link>
+            <Button variant="contained" color="default" onClick={handleLogout}>
+              Logout
+            </Button>
+          </Container>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }
 
