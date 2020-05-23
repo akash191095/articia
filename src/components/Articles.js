@@ -18,13 +18,17 @@ const AddArticleContainer = styled.div`
 function Articles() {
   const globalState = useContext(store);
   const {
-    state: { articles },
+    state: { articles, user: username },
   } = globalState;
 
   return (
     <Container>
       {articles.map((article) => (
-        <ArticleItem key={article.id} article={article} />
+        <ArticleItem
+          key={article.id}
+          article={article}
+          currentUser={username}
+        />
       ))}
       <AddArticleContainer>
         <Link to="/article/create">

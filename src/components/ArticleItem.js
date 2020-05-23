@@ -2,6 +2,25 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+const Video = styled.div`
+  margin: 2em;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+
+  > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 const Image = styled.div`
   margin: 2em 0;
@@ -38,7 +57,9 @@ function ArticleItem({
     description,
     imageUrl,
     videoUrl,
+    id,
   },
+  currentUser: { username: currentUser },
 }) {
   const date = new Date(datePublished * 1000);
   const theme = useTheme();
@@ -64,6 +85,30 @@ function ArticleItem({
           </Typography>
           <img src={imageUrl} alt="post" />
         </Image>
+      )}
+      {videoUrl && (
+        <Video>
+          <iframe
+            title={title}
+            width="560"
+            height="315"
+            src={videoUrl}
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            frameBorder="0"
+          ></iframe>
+        </Video>
+      )}
+      {author === currentUser && (
+        <Link
+          to={{
+            pathname: `/article/create/`,
+            state: {
+              articleId: id,
+            },
+          }}
+        >
+          Edit
+        </Link>
       )}
     </Article>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import validator from "validator";
 import urlParser from "js-video-url-parser";
@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { store } from "../contexts/store";
 import { TextField, Button } from "@material-ui/core";
 import { useInput } from "../hooks/useInput";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const Container = styled.section`
   margin: 1em;
@@ -22,29 +22,37 @@ const Container = styled.section`
 `;
 
 function CreateArticle() {
-  let articleId;
-  // const articleId = "2b3d5dc1-8112-4bb7-bf7a-dffe6559461b";
-
-  const { value: title, bind: bindTitle, setError: setErrorTitle } = useInput(
-    ""
-  );
+  const { state: { articleId = null } = {} } = useLocation();
+  const {
+    value: title,
+    bind: bindTitle,
+    setValue: setTitle,
+    setError: setErrorTitle,
+  } = useInput("");
   const {
     value: videoUrl,
     bind: bindVideoUrl,
+    setValue: setVideoUrl,
     setError: setErrorVideoUrl,
   } = useInput("");
   const {
     value: imageUrl,
     bind: bindImageUrl,
+    setValue: setImageUrl,
     setError: setErrorImageUrl,
   } = useInput("");
   const {
     value: description,
     bind: bindDescription,
+    setValue: setDescription,
     setError: setErrorDescription,
   } = useInput("");
-  const { value: body, bind: bindBody, setError: setErrorBody } = useInput("");
-  const [hasError, setHasError] = useState(false);
+  const {
+    value: body,
+    bind: bindBody,
+    setValue: setBody,
+    setError: setErrorBody,
+  } = useInput("");
   const globalState = useContext(store);
   const {
     state: {
@@ -55,6 +63,26 @@ function CreateArticle() {
   } = globalState;
 
   let history = useHistory();
+
+  useEffect(() => {
+    if (articleId) {
+      const article = articles.find((article) => article.id === articleId);
+      const { title, body, description, imageUrl, videoUrl } = article;
+      setTitle(title);
+      setBody(body);
+      setDescription(description);
+      setImageUrl(imageUrl);
+      setVideoUrl(videoUrl);
+    }
+  }, [
+    articleId,
+    setVideoUrl,
+    setImageUrl,
+    setTitle,
+    setDescription,
+    setBody,
+    articles,
+  ]);
 
   function validateData() {
     let passedValidation = true;
@@ -75,6 +103,8 @@ function CreateArticle() {
     ) {
       setErrorVideoUrl("Please check the youtube video url");
       passedValidation = false;
+    } else if (!validator.isEmpty(videoUrl) && !videoUrl.includes("embed")) {
+      setErrorVideoUrl("please enter the embed youtube link");
     } else {
       setErrorVideoUrl("");
     }
@@ -107,7 +137,7 @@ function CreateArticle() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (!validateData()) return setHasError(true);
+    if (!validateData()) return;
     let newArticles = [];
 
     if (articleId) {
@@ -184,7 +214,7 @@ function CreateArticle() {
         />
 
         <Button type="submit" variant="contained">
-          Add Article
+          {articleId ? "Save Changes" : "Add Article"}
         </Button>
       </form>
     </Container>
