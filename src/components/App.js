@@ -6,6 +6,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { ThemeProvider } from "@material-ui/core/styles";
+import theme from "./layout/theme";
 import Login from "./Login";
 import Articles from "./Articles";
 import Header from "./layout/Header";
@@ -41,20 +43,22 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <Header currentUser={username} />
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <PrivateRoute path="/" exact>
-            <Articles />
-          </PrivateRoute>
-          <PrivateRoute path="/article/create" exact>
-            <CreateArticle />
-          </PrivateRoute>
-        </Switch>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div>
+          <Header currentUser={username} />
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <PrivateRoute path="/" exact>
+              <Articles />
+            </PrivateRoute>
+            <PrivateRoute path="/article/create" exact>
+              <CreateArticle />
+            </PrivateRoute>
+          </Switch>
+        </div>
+      </ThemeProvider>
     </Router>
   );
 }
