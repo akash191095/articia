@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Login from "./Login";
 import Articles from "./Articles";
+import Header from "./layout/Header";
 
 function App() {
   const globalState = useContext(store);
@@ -40,6 +41,7 @@ function App() {
   return (
     <Router>
       <div>
+        <Header currentUser={username} />
         <Switch>
           <Route path="/login">
             <Login />

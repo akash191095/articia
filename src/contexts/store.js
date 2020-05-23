@@ -20,6 +20,9 @@ const StateProvider = ({ children }) => {
         const { username } = payload;
         saveUser(username);
         return { ...state, user: { username } };
+      case "LOGOUT_USER":
+        saveUser(null);
+        return { ...state, user: { username: null } };
       default:
         return state;
     }
