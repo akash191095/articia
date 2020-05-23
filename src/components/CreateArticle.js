@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 import { store } from "../contexts/store";
-// import { useLocalStorage } from "../hooks/useLocalStorage";
 import { TextField, Button } from "@material-ui/core";
 import { useInput } from "../hooks/useInput";
 import { useHistory } from "react-router-dom";
@@ -20,6 +20,9 @@ const Container = styled.section`
 `;
 
 function CreateArticle() {
+  let articleId;
+  // const articleId = "2b3d5dc1-8112-4bb7-bf7a-dffe6559461b";
+
   const { value: title, bind: bindTitle } = useInput("");
   const { value: videoUrl, bind: bindVideoUrl } = useInput("");
   const { value: imageUrl, bind: bindImageUrl } = useInput("");
@@ -38,18 +41,41 @@ function CreateArticle() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const newArticle = {
-      title,
-      videoUrl,
-      imageUrl,
-      description,
-      body,
-      datePublised: new Date().getTime(),
-      author: username,
-    };
+    let newArticles = [];
 
-    const newArticles = [...articles, newArticle];
-
+    if (articleId) {
+      // editing an existing article
+      const newArticleData = {
+        id: articleId,
+        title,
+        videoUrl,
+        imageUrl,
+        description,
+        body,
+        datePublised: new Date().getTime(),
+        author: username,
+      };
+      newArticles = articles.map((article) => {
+        if (article.id === articleId) {
+          return newArticleData;
+        } else {
+          return article;
+        }
+      });
+    } else {
+      // adding new article
+      const newArticle = {
+        id: uuidv4(),
+        title,
+        videoUrl,
+        imageUrl,
+        description,
+        body,
+        datePublised: new Date().getTime(),
+        author: username,
+      };
+      newArticles = [...articles, newArticle];
+    }
     dispatch({ type: "ADD_ARTICLE", payload: { articles: newArticles } });
     history.push("/");
   }
