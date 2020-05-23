@@ -52,7 +52,7 @@ function CreateArticle() {
         imageUrl,
         description,
         body,
-        datePublised: new Date().getTime(),
+        datePublished: new Date().getTime(),
         author: username,
       };
       newArticles = articles.map((article) => {
@@ -71,7 +71,7 @@ function CreateArticle() {
         imageUrl,
         description,
         body,
-        datePublised: new Date().getTime(),
+        datePublished: new Date().getTime(),
         author: username,
       };
       newArticles = [...articles, newArticle];

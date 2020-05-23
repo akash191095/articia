@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const initialState = {
@@ -13,7 +13,7 @@ const { Provider } = store;
 
 const StateProvider = ({ children }) => {
   const [, saveUser] = useLocalStorage("user", null);
-  const [, saveArticles] = useLocalStorage("articles", []);
+  const [articles, saveArticles] = useLocalStorage("articles", []);
 
   const [state, dispatch] = useReducer((state, action) => {
     const { type, payload } = action;
@@ -33,6 +33,10 @@ const StateProvider = ({ children }) => {
         return state;
     }
   }, initialState);
+
+  useEffect(() => {
+    dispatch({ type: "ADD_ARTICLE", payload: { articles } });
+  }, [articles]);
 
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
