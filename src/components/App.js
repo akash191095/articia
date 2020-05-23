@@ -9,6 +9,7 @@ import {
 import Login from "./Login";
 import Articles from "./Articles";
 import Header from "./layout/Header";
+import CreateArticle from "./CreateArticle";
 
 function App() {
   const globalState = useContext(store);
@@ -48,6 +49,9 @@ function App() {
           </Route>
           <PrivateRoute path="/" exact>
             <Articles />
+          </PrivateRoute>
+          <PrivateRoute path="/article/create" exact>
+            <CreateArticle />
           </PrivateRoute>
         </Switch>
       </div>
