@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { store } from "../contexts/store";
+// import { useLocalStorage } from "../hooks/useLocalStorage";
 import { TextField, Button } from "@material-ui/core";
 import { useInput } from "../hooks/useInput";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.section`
   form {
@@ -22,18 +25,33 @@ function CreateArticle() {
   const { value: imageUrl, bind: bindImageUrl } = useInput("");
   const { value: description, bind: bindDescription } = useInput("");
   const { value: body, bind: bindBody } = useInput("");
+  const globalState = useContext(store);
+  const {
+    state: {
+      articles,
+      user: { username },
+    },
+    dispatch,
+  } = globalState;
+
+  let history = useHistory();
 
   function handleSubmit(event) {
     event.preventDefault();
-    const data = {
+    const newArticle = {
       title,
       videoUrl,
       imageUrl,
       description,
       body,
       datePublised: new Date().getTime(),
+      author: username,
     };
-    console.log(data);
+
+    const newArticles = [...articles, newArticle];
+
+    dispatch({ type: "ADD_ARTICLE", payload: { articles: newArticles } });
+    history.push("/");
   }
 
   return (

@@ -5,6 +5,7 @@ const initialState = {
   user: {
     username: null,
   },
+  articles: [],
 };
 
 const store = createContext(initialState);
@@ -12,6 +13,7 @@ const { Provider } = store;
 
 const StateProvider = ({ children }) => {
   const [, saveUser] = useLocalStorage("user", null);
+  const [, saveArticles] = useLocalStorage("articles", []);
 
   const [state, dispatch] = useReducer((state, action) => {
     const { type, payload } = action;
@@ -23,6 +25,10 @@ const StateProvider = ({ children }) => {
       case "LOGOUT_USER":
         saveUser(null);
         return { ...state, user: { username: null } };
+      case "ADD_ARTICLE":
+        const { articles } = payload;
+        saveArticles(articles);
+        return { ...state, articles };
       default:
         return state;
     }
