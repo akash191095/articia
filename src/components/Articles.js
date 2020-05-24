@@ -8,6 +8,12 @@ import { Button, Link as MUILink } from "@material-ui/core";
 const Container = styled.section`
   margin: 1em;
   padding-bottom: 3em;
+
+  @media (min-width: 800px) {
+    margin: 4em auto;
+    font-size: 1.3em;
+    max-width: 60vw;
+  }
 `;
 
 const AddArticleContainer = styled.div`

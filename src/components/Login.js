@@ -14,6 +14,7 @@ const LoginContainer = styled.section`
     font-size: 3em;
   }
   > form {
+    max-width: 30em;
     position: absolute;
     top: 60%;
     left: 50%;
@@ -37,6 +38,19 @@ const LoginContainer = styled.section`
       height: 50px;
       color: red;
       margin: 0;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 1.5em;
+  }
+
+  @media (min-width: 1920px) {
+    h1 {
+      margin-top: 3em;
+    }
+    form {
+      top: 60%;
     }
   }
 `;

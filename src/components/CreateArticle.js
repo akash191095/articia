@@ -10,6 +10,7 @@ import { useHistory, useLocation } from "react-router-dom";
 
 const Container = styled.section`
   margin: 1em;
+  max-width: 60em;
   form {
     display: flex;
     flex-direction: column;
@@ -18,6 +19,10 @@ const Container = styled.section`
     > * {
       margin-bottom: 2em;
     }
+  }
+
+  @media (min-width: 55em) {
+    margin: 2em auto;
   }
 `;
 
