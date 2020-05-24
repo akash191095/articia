@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import moment from "moment";
 import { store } from "../contexts/store";
 import { Typography, Link as MUILink, Button } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
@@ -47,11 +48,13 @@ const EditContainer = styled.div`
 `;
 
 const Video = styled.div`
-  margin: 2em;
   position: relative;
   overflow: hidden;
   width: 100%;
   padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+
+  grid-column-start: 1;
+  grid-column-end: 3;
 
   > iframe {
     position: absolute;
@@ -66,6 +69,8 @@ const Video = styled.div`
 
 const Image = styled.div`
   margin: 2em 0;
+  grid-column-start: 1;
+  grid-column-end: 3;
   img {
     object-fit: cover;
     width: 100%;
@@ -146,11 +151,36 @@ function ArticleItem({
         component="p"
         className="article--item__date"
       >
-        On: {date.toLocaleString()}
+        {moment(date).calendar()}
       </Typography>
       <Typography variant="body1" component="p" className="article--item__body">
         {body}
       </Typography>
+      {imageUrl && (
+        <Image>
+          <Typography variant="caption" component="p">
+            Image
+          </Typography>
+          <img src={imageUrl} alt="post" />
+        </Image>
+      )}
+      {videoUrl && (
+        <>
+          <Typography variant="caption" component="p">
+            Video
+          </Typography>
+          <Video>
+            <iframe
+              title={title}
+              width="560"
+              height="315"
+              src={videoUrl}
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              frameBorder="0"
+            ></iframe>
+          </Video>
+        </>
+      )}
       <Typography
         variant="caption"
         component="p"
@@ -190,26 +220,6 @@ function ArticleItem({
           </Typography>
         </Likes>
       </EditContainer>
-      {imageUrl && (
-        <Image>
-          <Typography variant="caption" component="p">
-            Image
-          </Typography>
-          <img src={imageUrl} alt="post" />
-        </Image>
-      )}
-      {videoUrl && (
-        <Video>
-          <iframe
-            title={title}
-            width="560"
-            height="315"
-            src={videoUrl}
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            frameBorder="0"
-          ></iframe>
-        </Video>
-      )}
     </Article>
   );
 }

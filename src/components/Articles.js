@@ -10,7 +10,7 @@ const Container = styled.section`
   margin: 1em;
   padding-bottom: 3em;
 
-  @media (min-width: 800px) {
+  @media (min-width: 1000px) {
     margin: 4em auto;
     font-size: 1.3em;
     max-width: 60vw;
