@@ -4,7 +4,7 @@ import validator from "validator";
 import urlParser from "js-video-url-parser";
 import { v4 as uuidv4 } from "uuid";
 import { store } from "../contexts/store";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Typography } from "@material-ui/core";
 import { useInput } from "../hooks/useInput";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -184,6 +184,9 @@ function CreateArticle() {
 
   return (
     <Container>
+      <Typography variant="h4" component="h3">
+        {articleId ? "Edit Article" : "Add Article"}
+      </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
           type="text"
