@@ -1,7 +1,13 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { store } from "../../contexts/store";
-import { Button, AppBar, Toolbar, Typography } from "@material-ui/core";
+import {
+  Button,
+  AppBar,
+  Toolbar,
+  Typography,
+  Link as MUILink,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -27,11 +33,11 @@ function Header({ currentUser }) {
       <Toolbar>
         {currentUser && (
           <Container>
-            <Link to="/">
+            <MUILink component={Link} to="/">
               <Typography variant="button" color="secondary">
                 Articia
               </Typography>
-            </Link>
+            </MUILink>
             <Button variant="contained" color="default" onClick={handleLogout}>
               Logout
             </Button>
