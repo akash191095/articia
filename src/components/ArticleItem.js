@@ -6,6 +6,17 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
+const Avatar = styled.div`
+  width: 80px;
+  text-align: center;
+  img {
+    display: block;
+    width: 80px;
+    border-radius: 10px;
+    margin: 0.5em 0;
+  }
+`;
+
 const Likes = styled.div`
   display: flex;
   justify-content: center;
@@ -23,11 +34,16 @@ const Likes = styled.div`
 `;
 
 const EditContainer = styled.div`
-  margin-top: 1em;
+  margin-top: auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: flex-end;
   width: 100%;
+
+  > div {
+    margin-right: 1em;
+  }
 `;
 
 const Video = styled.div`
@@ -60,17 +76,30 @@ const Image = styled.div`
 const Article = styled.article`
   background-color: ${(props) => props.color};
   padding: 1em;
-  margin: 0.5em 0;
+  margin: 3em 0;
   border-radius: 10px;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  h3:nth-of-type(1) {
-    margin-left: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 3fr;
+  .article--item__title {
+    grid-column-start: 1;
+    grid-column-end: 3;
   }
-  p {
-    margin-right: auto;
+  .article--item__date {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+  .article--item__body {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+  .article--item__note {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 5;
   }
 `;
 
@@ -109,18 +138,58 @@ function ArticleItem({
 
   return (
     <Article color={theme.palette.secondary.light}>
-      <Typography variant="h5" component="h3">
+      <Typography variant="h5" component="h3" className="article--item__title">
         {title}
       </Typography>
-      <Typography variant="body1" component="p">
-        {body}
-      </Typography>
-      <Typography variant="caption" component="p">
-        {author}: {description}
-      </Typography>
-      <Typography variant="caption" component="p">
+      <Typography
+        variant="caption"
+        component="p"
+        className="article--item__date"
+      >
         On: {date.toLocaleString()}
       </Typography>
+      <Typography variant="body1" component="p" className="article--item__body">
+        {body}
+      </Typography>
+      <Typography
+        variant="caption"
+        component="p"
+        className="article--item__note"
+      >
+        Note: {description}
+      </Typography>
+      <Avatar>
+        <img src="https://picsum.photos/200" alt="avatar" />
+        <Typography variant="body2" component="p">
+          {author}
+        </Typography>
+      </Avatar>
+      <EditContainer>
+        {author === currentUser && (
+          <MUILink
+            component={Link}
+            variant="button"
+            to={{
+              pathname: `/article/create/`,
+              state: {
+                articleId: id,
+              },
+            }}
+          >
+            <Button variant="outlined" size="small">
+              Edit
+            </Button>
+          </MUILink>
+        )}
+        <Likes likes={likedBy.includes(currentUser)}>
+          <span onClick={handleLike}>
+            <FavoriteIcon />
+          </span>
+          <Typography>
+            {likedBy.length} {likedBy.length > 1 ? "Likes" : "Like"}
+          </Typography>
+        </Likes>
+      </EditContainer>
       {imageUrl && (
         <Image>
           <Typography variant="caption" component="p">
@@ -141,30 +210,6 @@ function ArticleItem({
           ></iframe>
         </Video>
       )}
-      <EditContainer>
-        <Likes likes={likedBy.includes(currentUser)}>
-          <span onClick={handleLike}>
-            <FavoriteIcon />
-          </span>
-          <Typography>{likedBy.length} Likes</Typography>
-        </Likes>
-        {author === currentUser && (
-          <MUILink
-            component={Link}
-            variant="button"
-            to={{
-              pathname: `/article/create/`,
-              state: {
-                articleId: id,
-              },
-            }}
-          >
-            <Button variant="outlined" size="small">
-              Edit
-            </Button>
-          </MUILink>
-        )}
-      </EditContainer>
     </Article>
   );
 }
