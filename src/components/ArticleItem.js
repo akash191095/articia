@@ -10,7 +10,7 @@ const Likes = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5em;
+  width: 90px;
 
   span {
     color: ${(props) => (props.likes ? "red" : "inherit")};
