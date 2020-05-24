@@ -4,6 +4,7 @@ import { store } from "../contexts/store";
 import ArticleItem from "./ArticleItem";
 import { Link } from "react-router-dom";
 import { Button, Link as MUILink } from "@material-ui/core";
+import SortArticles from "./SortArticles";
 
 const Container = styled.section`
   margin: 1em;
@@ -30,6 +31,7 @@ function Articles() {
 
   return (
     <Container>
+      <SortArticles />
       {articles.map((article) => (
         <ArticleItem
           key={article.id}

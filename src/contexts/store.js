@@ -12,10 +12,13 @@ const store = createContext(initialState);
 const { Provider } = store;
 
 const StateProvider = ({ children }) => {
-  const [, saveUser] = useLocalStorage("user", null);
   const [articles, saveArticles] = useLocalStorage("articles", []);
+  const [, saveUser] = useLocalStorage("user", null);
 
-  const [state, dispatch] = useReducer((state, action) => {
+  const [state, dispatch] = useReducer(rootReducer, initialState);
+  const store = React.useMemo(() => ({ state, dispatch }), [state]);
+
+  function rootReducer(state, action) {
     const { type, payload } = action;
     switch (type) {
       case "LOGIN_USER": {
@@ -30,6 +33,10 @@ const StateProvider = ({ children }) => {
       case "ADD_ARTICLE": {
         const { articles } = payload;
         saveArticles(articles);
+        return { ...state, articles };
+      }
+      case "SORT_ARTICLES": {
+        const { articles } = payload;
         return { ...state, articles };
       }
       case "ARTICLE_LIKE": {
@@ -69,13 +76,14 @@ const StateProvider = ({ children }) => {
       default:
         return state;
     }
-  }, initialState);
+  }
 
+  // load on mount
   useEffect(() => {
     dispatch({ type: "ADD_ARTICLE", payload: { articles } });
   }, [articles]);
 
-  return <Provider value={{ state, dispatch }}>{children}</Provider>;
+  return <Provider value={store}>{children}</Provider>;
 };
 
 export { store, StateProvider };

@@ -5,11 +5,9 @@ import { StateProvider } from "./contexts/store";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StateProvider>
-      <App />
-    </StateProvider>
-  </React.StrictMode>,
+  <StateProvider>
+    <App />
+  </StateProvider>,
   document.getElementById("root")
 );
 

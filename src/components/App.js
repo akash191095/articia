@@ -6,7 +6,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./layout/theme";
@@ -24,26 +23,6 @@ function App() {
     },
   } = globalState;
 
-  function PrivateRoute({ children, ...rest }) {
-    return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          username ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location },
-              }}
-            />
-          )
-        }
-      />
-    );
-  }
-
   return (
     <Router>
       <ThemeProvider theme={theme}>
@@ -54,12 +33,22 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <PrivateRoute path="/" exact>
-              <Articles />
-            </PrivateRoute>
-            <PrivateRoute path="/article/create" exact>
-              <CreateArticle />
-            </PrivateRoute>
+            {username ? (
+              <>
+                <Route path="/" exact>
+                  <Articles />
+                </Route>
+                <Route path="/article/create">
+                  <CreateArticle />
+                </Route>
+              </>
+            ) : (
+              <Redirect
+                to={{
+                  pathname: "/login",
+                }}
+              />
+            )}
           </Switch>
         </div>
       </ThemeProvider>

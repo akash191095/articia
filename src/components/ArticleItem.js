@@ -90,7 +90,7 @@ function ArticleItem({
 }) {
   const globalState = useContext(store);
   const { dispatch } = globalState;
-  const date = new Date(datePublished * 1000);
+  const date = new Date(datePublished);
   const theme = useTheme();
 
   function handleLike() {
