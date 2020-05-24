@@ -3,8 +3,20 @@
     "username": "akash",
     "password": "123"
   },
-  "user2": {
-    "username": "user2",
-    "password": "1234"
+  "lucas": {
+    "username": "lucas",
+    "password": "123"
+  },
+  "senha": {
+    "username": "sneha",
+    "password": "123"
+  },
+  "marry": {
+    "username": "marry",
+    "password": "123"
+  },
+  "kevin": {
+    "username": "kevin",
+    "password": "123abc"
   }
 }

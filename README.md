@@ -1,3 +1,34 @@
+# Users
+
+```
+{
+  "akash": {
+    "username": "akash",
+    "password": "123"
+  },
+  "lucas": {
+    "username": "lucas",
+    "password": "123"
+  },
+  "senha": {
+    "username": "sneha",
+    "password": "123"
+  },
+  "marry": {
+    "username": "marry",
+    "password": "123"
+  },
+  "kevin": {
+    "username": "kevin",
+    "password": "123abc"
+  }
+}
+```
+
+<br />
+<br />
+<br />
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
