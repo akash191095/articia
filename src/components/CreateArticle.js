@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import validator from "validator";
 import urlParser from "js-video-url-parser";
@@ -28,6 +28,7 @@ const Container = styled.section`
 
 function CreateArticle() {
   const { state: { articleId = null } = {} } = useLocation();
+  const [articleToEdit, setArticleToEdit] = useState(null);
   const {
     value: title,
     bind: bindTitle,
@@ -69,9 +70,11 @@ function CreateArticle() {
 
   let history = useHistory();
 
+  // initilize data for edit
   useEffect(() => {
     if (articleId) {
       const article = articles.find((article) => article.id === articleId);
+      setArticleToEdit(article);
       const { title, body, description, imageUrl, videoUrl } = article;
       setTitle(title);
       setBody(body);
@@ -148,15 +151,15 @@ function CreateArticle() {
     if (articleId) {
       // editing an existing article
       const newArticleData = {
-        id: articleId,
+        ...articleToEdit,
         title,
         videoUrl,
         imageUrl,
         description,
         body,
         datePublished: new Date().getTime(),
-        author: username,
       };
+
       newArticles = articles.map((article) => {
         if (article.id === articleId) {
           return newArticleData;
@@ -175,6 +178,7 @@ function CreateArticle() {
         body,
         datePublished: new Date().getTime(),
         author: username,
+        likedBy: [username],
       };
       newArticles = [...articles, newArticle];
     }

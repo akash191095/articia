@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
+import { store } from "../contexts/store";
 import { Typography, Link as MUILink, Button } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+
+const Likes = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5em;
+
+  span {
+    /* color: red; */
+    cursor: pointer;
+  }
+  p {
+    margin-left: auto;
+    margin-top: -4px;
+  }
+`;
 
 const EditContainer = styled.div`
-  margin-left: auto;
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;
 
 const Video = styled.div`
@@ -62,11 +84,28 @@ function ArticleItem({
     imageUrl,
     videoUrl,
     id,
+    likedBy,
   },
   currentUser: { username: currentUser },
 }) {
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
   const date = new Date(datePublished * 1000);
   const theme = useTheme();
+
+  function handleLike() {
+    if (likedBy.includes(currentUser)) {
+      dispatch({
+        type: "ARTICLE_DISLIKE",
+        payload: { articleId: id, currentUser },
+      });
+    } else {
+      dispatch({
+        type: "ARTICLE_LIKE",
+        payload: { articleId: id, currentUser },
+      });
+    }
+  }
 
   return (
     <Article color={theme.palette.secondary.light}>
@@ -102,8 +141,14 @@ function ArticleItem({
           ></iframe>
         </Video>
       )}
-      {author === currentUser && (
-        <EditContainer>
+      <EditContainer>
+        <Likes>
+          <span onClick={handleLike}>
+            <FavoriteIcon />
+          </span>
+          <Typography>{likedBy.length} Likes</Typography>
+        </Likes>
+        {author === currentUser && (
           <MUILink
             component={Link}
             variant="button"
@@ -118,8 +163,8 @@ function ArticleItem({
               Edit
             </Button>
           </MUILink>
-        </EditContainer>
-      )}
+        )}
+      </EditContainer>
     </Article>
   );
 }
