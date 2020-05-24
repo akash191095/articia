@@ -13,7 +13,7 @@ const Likes = styled.div`
   width: 5em;
 
   span {
-    /* color: red; */
+    color: ${(props) => (props.likes ? "red" : "inherit")};
     cursor: pointer;
   }
   p {
@@ -142,7 +142,7 @@ function ArticleItem({
         </Video>
       )}
       <EditContainer>
-        <Likes>
+        <Likes likes={likedBy.includes(currentUser)}>
           <span onClick={handleLike}>
             <FavoriteIcon />
           </span>
