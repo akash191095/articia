@@ -1,8 +1,12 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, Link as MUILink, Button } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
+const EditContainer = styled.div`
+  margin-left: auto;
+`;
 
 const Video = styled.div`
   margin: 2em;
@@ -99,16 +103,22 @@ function ArticleItem({
         </Video>
       )}
       {author === currentUser && (
-        <Link
-          to={{
-            pathname: `/article/create/`,
-            state: {
-              articleId: id,
-            },
-          }}
-        >
-          Edit
-        </Link>
+        <EditContainer>
+          <MUILink
+            component={Link}
+            variant="button"
+            to={{
+              pathname: `/article/create/`,
+              state: {
+                articleId: id,
+              },
+            }}
+          >
+            <Button variant="outlined" size="small">
+              Edit
+            </Button>
+          </MUILink>
+        </EditContainer>
       )}
     </Article>
   );

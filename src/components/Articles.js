@@ -3,15 +3,16 @@ import styled from "styled-components";
 import { store } from "../contexts/store";
 import ArticleItem from "./ArticleItem";
 import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { Button, Link as MUILink } from "@material-ui/core";
 
 const Container = styled.section`
   margin: 1em;
+  padding-bottom: 3em;
 `;
 
 const AddArticleContainer = styled.div`
-  position: sticky;
-  bottom: 1rem;
+  position: fixed;
+  bottom: 1em;
   text-align: right;
 `;
 
@@ -31,11 +32,11 @@ function Articles() {
         />
       ))}
       <AddArticleContainer>
-        <Link to="/article/create">
-          <Button variant="contained" color="default">
+        <MUILink component={Link} variant="button" to="/article/create">
+          <Button variant="contained" color="primary">
             Add Article
           </Button>
-        </Link>
+        </MUILink>
       </AddArticleContainer>
     </Container>
   );
