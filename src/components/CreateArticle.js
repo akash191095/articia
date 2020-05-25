@@ -34,31 +34,31 @@ function CreateArticle() {
     bind: bindTitle,
     setValue: setTitle,
     setError: setErrorTitle,
-  } = useInput("");
+  } = useInput("", true);
   const {
     value: videoUrl,
     bind: bindVideoUrl,
     setValue: setVideoUrl,
     setError: setErrorVideoUrl,
-  } = useInput("");
+  } = useInput("", true);
   const {
     value: imageUrl,
     bind: bindImageUrl,
     setValue: setImageUrl,
     setError: setErrorImageUrl,
-  } = useInput("");
+  } = useInput("", true);
   const {
     value: description,
     bind: bindDescription,
     setValue: setDescription,
     setError: setErrorDescription,
-  } = useInput("");
+  } = useInput("", true);
   const {
     value: body,
     bind: bindBody,
     setValue: setBody,
     setError: setErrorBody,
-  } = useInput("");
+  } = useInput("", true);
   const globalState = useContext(store);
   const {
     state: {
@@ -119,6 +119,7 @@ function CreateArticle() {
 
     // Image Url
     if (!validator.isEmpty(imageUrl) && !validator.isURL(imageUrl)) {
+      passedValidation = false;
       setErrorImageUrl("Please check image url");
     } else {
       setErrorImageUrl("");
@@ -213,6 +214,7 @@ function CreateArticle() {
         <TextField
           type="text"
           variant="outlined"
+          label="Description"
           placeholder="Description"
           multiline
           {...bindDescription}
@@ -220,6 +222,7 @@ function CreateArticle() {
         <TextField
           type="text"
           variant="outlined"
+          label="Body"
           placeholder="Body"
           multiline
           {...bindBody}

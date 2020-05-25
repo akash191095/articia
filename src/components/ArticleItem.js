@@ -10,6 +10,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 const Avatar = styled.div`
   width: 80px;
   text-align: center;
+  margin-top: 2em;
   img {
     display: block;
     width: 80px;
@@ -85,12 +86,13 @@ const Article = styled.article`
   border-radius: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 3fr;
+  grid-template-rows: 0.4fr 0fr 3fr 0.8fr;
   .article--item__title {
     grid-column-start: 1;
     grid-column-end: 3;
   }
   .article--item__date {
+    margin-bottom: 0.5em;
     grid-column-start: 1;
     grid-column-end: 3;
   }
@@ -101,6 +103,7 @@ const Article = styled.article`
     grid-row-end: 4;
   }
   .article--item__note {
+    margin-top: auto;
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 4;
